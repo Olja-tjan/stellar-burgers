@@ -65,8 +65,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    selectLoadUser: (sliceState) => sliceState.isLoading,
-    selectUser: (sliceState) => sliceState.user
+    selectLoadUser: (sliceState: UserState) => sliceState.isLoading,
+    selectUser: (sliceState: UserState) => sliceState.user
   },
   extraReducers: (builder) => {
     builder

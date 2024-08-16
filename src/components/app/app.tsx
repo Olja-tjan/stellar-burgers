@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import {
   ConstructorPage,
   Feed,
@@ -20,15 +20,17 @@ import { getIngredientsThunk } from '../../services/slices/ingredientsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
-  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const backgroundLocation = location.state?.backgroundLocation;
+
   useEffect(() => {
     dispatch(getIngredientsThunk());
   }, []);
 
-
-  const location = useLocation();
-
-  const backgroundLocation = location.state?.backgroundLocation;
+  const handleModalClose = () => {
+    navigate(-1)
+  }
 
   return (
     <div className={styles.app}>
@@ -41,35 +43,37 @@ const App = () => {
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/profile/orders' element={<ProfileOrders />} />        
+        <Route path='/profile/orders' element={<ProfileOrders />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
-      {backgroundLocation && (<Routes>
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal title={''} onClose={() => { }}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal title={''} onClose={() => { }}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <Modal title={''} onClose={() => { }}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-      </Routes>
+
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal title={''} onClose={handleModalClose}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title={'Детали ингридиентов'} onClose={handleModalClose}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <Modal title={''} onClose={handleModalClose}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+        </Routes>
       )}
     </div>
   )

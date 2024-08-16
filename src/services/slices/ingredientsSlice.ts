@@ -22,8 +22,8 @@ const ingredientsSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    selectIngredients: (sliceState) => sliceState.ingredients,
-    selectLoadIngredients: (sliceState) => sliceState.isLoading
+    selectIngredients: (sliceState: IngredientsState) => sliceState.ingredients,
+    selectLoadIngredients: (sliceState: IngredientsState) => sliceState.isLoading
   },
   extraReducers: (builder) => {
     builder

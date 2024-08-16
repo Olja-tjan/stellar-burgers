@@ -3,7 +3,7 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector } from '../../services/store';
 import { selectConstructorItems } from '../../services/slices/constructorItemsSlice';
-import { selectLoadOrders, selectOrder } from '../../services/slices/ordersSlice';
+import { selectLoadOrder, selectOrder } from '../../services/slices/orderSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -20,7 +20,7 @@ export const BurgerConstructor: FC = () => {
 
   const constructorItems = useSelector(selectConstructorItems);
 
-  const orderRequest = useSelector(selectLoadOrders);
+  const orderRequest = useSelector(selectLoadOrder);
 
   const orderModalData = useSelector(selectOrder);
 

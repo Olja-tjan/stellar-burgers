@@ -9,11 +9,16 @@ export const getFeedThunk = createAsyncThunk(
 
 interface FeedState {
   isLoading: boolean,
+  error: unknown | null,
   feed: TOrdersData
+  // orders: TOrder[],
+  // total: number,
+  // totalToday: number
 }
 
 const initialState: FeedState = {
   isLoading: false,
+  error: null,
   feed: {
     orders: [],
     total: 0,
@@ -26,8 +31,8 @@ const ordersSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    selectFeed: (sliceState) => sliceState.feed,    
-    selectOrdersFeed: (sliceState) => sliceState.feed.orders
+    selectFeed: (sliceState: FeedState) => sliceState.feed,    
+    selectOrdersFeed: (sliceState: FeedState) => sliceState.feed.orders
   },
   extraReducers: (builder) => {
     builder

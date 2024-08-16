@@ -2,11 +2,12 @@ import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 import { TConstructorIngredient, TIngredient } from '@utils-types'
 
 interface ConstructorItemsState {
-  bun?: TConstructorIngredient,
+  bun: TConstructorIngredient | null,
   ingredients: TConstructorIngredient[]
 }
 
 const initialState: ConstructorItemsState = {
+  bun: null,
   ingredients: []
 }
 
@@ -14,7 +15,7 @@ const constructorItemsSlice = createSlice({
   name: 'constructorItems',
   initialState,
   reducers: {
-    addIngredients: {
+    addIngredient: {
       prepare: (ingredient: TIngredient) => {
         return { payload: { ...ingredient, id: nanoid()}};
       },
@@ -24,18 +25,34 @@ const constructorItemsSlice = createSlice({
           : state.ingredients.push(action.payload)
       }
     },
-    removeIngredients: (state, action: PayloadAction<string>) => {
-      state.ingredients = state.ingredients.filter(i => i.id !== action.payload)
+    removeIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
+      state.ingredients = state.ingredients.filter(item => item.id !== action.payload.id)
     },
-    // upIngredient
-    // downIngredient
-    // clearConstructorItems
+    upIngredient: (state, action: PayloadAction<number>)  => {
+      [state.ingredients[action.payload], state.ingredients[action.payload - 1]] = [
+        state.ingredients[action.payload - 1],
+        state.ingredients[action.payload]
+      ];
+    },
+    downIngredient: (state, action: PayloadAction<number>) => {
+      [state.ingredients[action.payload], state.ingredients[action.payload + 1]] = [
+        state.ingredients[action.payload + 1],
+        state.ingredients[action.payload]
+      ];
+    }
   },
   selectors: {
-    selectConstructorItems: (sliceState) => sliceState
+    selectConstructorItems: (sliceState: ConstructorItemsState) => sliceState
   },
 })
 
 export const { selectConstructorItems } = constructorItemsSlice.selectors;
+
+export const {
+  addIngredient,
+  removeIngredient,
+  upIngredient,
+  downIngredient
+} = constructorItemsSlice.actions;
 
 export default constructorItemsSlice.reducer;
