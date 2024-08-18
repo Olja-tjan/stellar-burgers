@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, useMatch } from 'react-router-dom';
 import {
   ConstructorPage,
   Feed,
@@ -19,21 +19,14 @@ import { useDispatch } from '../../services/store';
 import { getIngredientsThunk } from '../../services/slices/ingredientsSlice';
 import { checkedUserAuthThunk } from '../../services/slices/userSlice';
 
-import {
-  useMatch
-} from 'react-router-dom';
-
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
-
-
   const profileMatch = useMatch('/profile/orders/:number')?.params.number;
   const feedMatch = useMatch('/feed/:number')?.params.number;
   const orderNumber = feedMatch || profileMatch;
-
 
   useEffect(() => {
     dispatch(getIngredientsThunk());

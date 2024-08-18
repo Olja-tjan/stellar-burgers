@@ -72,23 +72,3 @@ export const orderSlice = createSlice({
 export const { selectLoadOrder, selectOrder } = orderSlice.selectors;
 
 export const { resetOrder } = orderSlice.actions;
-
-
-// import { RootState } from '../store';
-
-// export const selectOrderById = (number: number) => (state: RootState) => {
-//   if (state.feed.feed.orders.length || state.orders.orders.length) {
-//     return (
-//       state.feed.feed.orders.find((order) => order.number === number) ||
-//       state.orders.orders.find((order) => order.number === number)
-//     )
-//   }
-
-//   if (state.order.order) {
-//     return state.order.order.number === number
-//       ? state.order.order
-//       : null
-//   }
-
-//   return null
-// }

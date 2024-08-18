@@ -2,6 +2,7 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { loginUserThunk } from '../../services/slices/userSlice';
+import { setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -10,8 +11,16 @@ export const Login: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
-    dispatch(loginUserThunk({ email, password }));
+
+    dispatch(loginUserThunk({
+      email: email,
+      password: password
+    }))
+    .unwrap()
+    .then(dataResponse => {
+      setCookie('accessToken', dataResponse.accessToken);
+      localStorage.setItem('refreshToken', dataResponse.refreshToken);
+    });
   };
 
   return (

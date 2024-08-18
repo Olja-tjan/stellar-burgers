@@ -2,6 +2,7 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { registerUserThunk } from '../../services/slices/userSlice';
+import { setCookie } from '../../utils/cookie';
 
 export const Register: FC = () => {
   const [name, setUserName] = useState('');
@@ -11,8 +12,17 @@ export const Register: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    if (!name || !email || !password) return;
-    dispatch(registerUserThunk({ email, name, password}));
+
+    dispatch(registerUserThunk({
+      email: email,
+      name: name,
+      password: password
+    }))
+    .unwrap()
+    .then(dataResponse => {
+      setCookie('accessToken', dataResponse.accessToken);
+      localStorage.setItem('refreshToken', dataResponse.refreshToken);
+    });
   };
 
   return (

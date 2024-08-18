@@ -10,7 +10,7 @@ export const ProfileOrders: FC = () => {
   const orders: TOrder[] = useSelector(selectOrders);
 
   useEffect(() => {
-    dispatch(getOrdersThunk)
+    dispatch(getOrdersThunk())
   }, [])
 
   return <ProfileOrdersUI orders={orders} />;

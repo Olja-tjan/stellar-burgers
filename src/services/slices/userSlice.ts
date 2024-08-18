@@ -16,49 +16,6 @@ import { deleteCookie, setCookie } from '../../utils/cookie';
 export const checkedUserAuthThunk = createAsyncThunk(
   `${USER_SLICE_NAME}/checkUser`,
   async () => getUserApi()
-);
-
-
-// export const registerUserThunk = createAsyncThunk(
-//   `${USER_SLICE_NAME}/registerUser`,
-//   async ({ email, name, password }: TRegisterData) => {
-//     const data = await registerUserApi({ email, name, password });
-//     if (!data?.success) return data.user;
-//     setCookie('accessToken', data.accessToken);
-//     localStorage.setItem('refreshToken', data.refreshToken);
-//     return data.user;
-//   }
-// )
-
-// export const loginUserThunk = createAsyncThunk(
-//   `${USER_SLICE_NAME}/loginUser`,
-//   async ({ email, password }: TLoginData) => {
-//     const data = await loginUserApi({ email, password });
-//     if (!data?.success) return data.user;
-//     setCookie('accessToken', data.accessToken);
-//     localStorage.setItem('refreshToken', data.refreshToken);
-//     return data.user;
-//   }
-// )
-
-export const registerUserThunk = createAsyncThunk(
-  `${USER_SLICE_NAME}/registerUser`,
-  ({ email, name, password }: TRegisterData) =>
-    registerUserApi({ email, name, password }).then((res) => {
-      setCookie('accessToken', res.accessToken);
-      localStorage.setItem('refreshToken', res.refreshToken);
-      return res.user;
-    })
-)
-
-export const loginUserThunk = createAsyncThunk(
-  `${USER_SLICE_NAME}/loginUser`,
-  ({ email, password }: TLoginData) =>
-    loginUserApi({ email, password }).then((res) => {
-      setCookie('accessToken', res.accessToken);
-      localStorage.setItem('refreshToken', res.refreshToken);
-      return res.user;
-    })
 )
 
 export const updateUserThunk = createAsyncThunk(
@@ -68,14 +25,24 @@ export const updateUserThunk = createAsyncThunk(
   }
 )
 
+export const registerUserThunk = createAsyncThunk(
+  `${USER_SLICE_NAME}/registerUser`,
+  async ({ email, name, password }: TRegisterData) => {
+    return await registerUserApi({ email, name, password });
+  }
+)
+
+export const loginUserThunk = createAsyncThunk(
+  `${USER_SLICE_NAME}/loginUser`,
+  async ({ email, password }: TLoginData) => {
+    return await loginUserApi({ email, password });
+  }
+)
+
 export const logoutUserThunk = createAsyncThunk(
   `${USER_SLICE_NAME}/logoutUser`,
-  async () => {
-    logoutApi().then(() => {
-      localStorage.clear();
-      deleteCookie('accessToken');
-    });
-  })
+  async () => logoutApi()
+)
 
 interface UserState {
   isAuthChecked: boolean,
@@ -109,10 +76,10 @@ export const userSlice = createSlice({
         state.isAuthChecked = true;
       })
       .addCase(registerUserThunk.fulfilled,
-        (state, action: PayloadAction<TUser>) => {
+        (state, action: PayloadAction<TUserResponse>) => {
           state.isLoading = false;
           state.isAuthChecked = true;
-          state.user = action.payload;
+          state.user = action.payload.user;
         })
 
       .addCase(loginUserThunk.pending, (state) => {
@@ -124,10 +91,10 @@ export const userSlice = createSlice({
         state.isAuthChecked = true;
       })
       .addCase(loginUserThunk.fulfilled,
-        (state, action: PayloadAction<TUser>) => {
+        (state, action: PayloadAction<TUserResponse>) => {
           state.isLoading = false
           state.isAuthChecked = true;
-          state.user = action.payload;
+          state.user = action.payload.user;
         })
 
       .addCase(checkedUserAuthThunk.pending, (state) => {
