@@ -5,20 +5,21 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import ingredientsSlice from './slices/ingredientsSlice';
-import ordersSlice from './slices/ordersSlice';
-import userSlice from './slices/userSlice';
-import constructorItemsSlice from './slices/constructorItemsSlice';
-import feedSlice from './slices/feedSlice';
-import orderSlice from './slices/orderSlice';
+
+import { userSlice } from './slices/userSlice';
+import { ingredientsSlice } from './slices/ingredientsSlice';
+import { feedSlice } from './slices/feedSlice';
+import { orderSlice } from './slices/orderSlice';
+import { ordersSlice } from './slices/ordersSlice';
+import { burgerConstructorSlice } from './slices/burgerConstructorSlice';
 
 const rootReducer = combineReducers({
-  feed: feedSlice,
-  constructorItems: constructorItemsSlice,
-  ingredients: ingredientsSlice,
-  orders: ordersSlice,
-  order: orderSlice,
-  user: userSlice
+  [userSlice.name]: userSlice.reducer,
+  [ingredientsSlice.name]: ingredientsSlice.reducer,
+  [burgerConstructorSlice.name]: burgerConstructorSlice.reducer,
+  [feedSlice.name]: feedSlice.reducer,
+  [ordersSlice.name]: ordersSlice.reducer,
+  [orderSlice.name]: orderSlice.reducer,
 });
 
 const store = configureStore({

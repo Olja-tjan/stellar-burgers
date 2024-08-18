@@ -8,9 +8,6 @@ import { selectIngredients } from '../../services/slices/ingredientsSlice';
 
 export const BurgerIngredients: FC = () => {
   /** TODO: взять переменные из стора */
-  // const buns = [];
-  // const mains = [];
-  // const sauces = [];
   const ingredients = useSelector(selectIngredients);
 
   const buns = useMemo(() => ingredients.filter(ingredient => ingredient.type === 'bun'), [ingredients]);
@@ -53,8 +50,6 @@ export const BurgerIngredients: FC = () => {
     if (tab === 'sauce')
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  //return null;
 
   return (
     <BurgerIngredientsUI

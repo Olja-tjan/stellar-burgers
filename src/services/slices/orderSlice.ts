@@ -1,20 +1,29 @@
-import { getOrderByNumberApi, orderBurgerApi } from '@api';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  getOrderByNumberApi,
+  orderBurgerApi,
+  TNewOrderResponse,
+  TOrderResponse
+} from '@api';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { TOrder } from '@utils-types';
+import { resetConstructor } from './burgerConstructorSlice';
+import { ORDER_SLICE_NAME } from '../../utils/constants';
 
-export const orderBurgerThunk = createAsyncThunk(
-  'orders/orderBurger',
-  async (id_ingredients: string[]) => orderBurgerApi(id_ingredients) // post ingredients to order, принимает массив с id
-)
+export const createOrderBurgerThunk = createAsyncThunk(
+  `${ORDER_SLICE_NAME}/createOrderBurger`,
+  async (id_ingredients: string[], { dispatch }) => {
+    dispatch(resetConstructor())
+    return orderBurgerApi(id_ingredients)
+  })
 
-export const getOrderByIdThunk = createAsyncThunk(
-  'orders/getOrderByNumber',
-  async (id_order: number) => getOrderByNumberApi(id_order) // get order по id-заказа
+export const getOrderByNumberThunk = createAsyncThunk(
+  `${ORDER_SLICE_NAME}/getOrderByNumber`,
+  async (id_order: number) => getOrderByNumberApi(id_order)
 )
 
 interface OrderState {
   isLoading: boolean,
-  order:  TOrder | null
+  order: TOrder | null
 }
 
 const initialState: OrderState = {
@@ -22,42 +31,64 @@ const initialState: OrderState = {
   order: null
 }
 
-const orderSlice = createSlice({
-  name: 'order',
+export const orderSlice = createSlice({
+  name: ORDER_SLICE_NAME,
   initialState,
-  reducers: {},
+  reducers: {
+    resetOrder: (state) => {
+      state.order = null
+    }
+  },
   selectors: {
-    selectLoadOrder: (sliceState: OrderState) => sliceState.isLoading,
-    selectOrder: (sliceState: OrderState) => sliceState.order
+    selectOrder: (sliceState: OrderState) => sliceState.order,
+    selectLoadOrder: (sliceState: OrderState) => sliceState.isLoading
   },
   extraReducers: (builder) => {
     builder
-    // Отправка массива с id заказанных ингридиентов
-    .addCase(orderBurgerThunk.pending, (state) => {
-      state.isLoading = true;
-    })
-    .addCase(orderBurgerThunk.rejected, (state) => {
-      state.isLoading = false;
-    })
-    .addCase(orderBurgerThunk.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.order = action.payload.order
-    })
+      .addCase(createOrderBurgerThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createOrderBurgerThunk.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(createOrderBurgerThunk.fulfilled, (state, action: PayloadAction<TNewOrderResponse>) => {
+        state.isLoading = false;
+        state.order = action.payload.order
+      })
 
-    // Получение order по его id
-    .addCase(getOrderByIdThunk.pending, (state) => {
-      state.isLoading = true;
-    })
-    .addCase(getOrderByIdThunk.rejected, (state) => {
-      state.isLoading = false;
-    })
-    .addCase(getOrderByIdThunk.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.order = action.payload.orders[0]
-    })
+      .addCase(getOrderByNumberThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOrderByNumberThunk.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(getOrderByNumberThunk.fulfilled, (state, action: PayloadAction<TOrderResponse>) => {
+        state.isLoading = false;
+        state.order = action.payload.orders[0]
+      })
   }
 })
 
 export const { selectLoadOrder, selectOrder } = orderSlice.selectors;
 
-export default orderSlice.reducer;
+export const { resetOrder } = orderSlice.actions;
+
+
+// import { RootState } from '../store';
+
+// export const selectOrderById = (number: number) => (state: RootState) => {
+//   if (state.feed.feed.orders.length || state.orders.orders.length) {
+//     return (
+//       state.feed.feed.orders.find((order) => order.number === number) ||
+//       state.orders.orders.find((order) => order.number === number)
+//     )
+//   }
+
+//   if (state.order.order) {
+//     return state.order.order.number === number
+//       ? state.order.order
+//       : null
+//   }
+
+//   return null
+// }

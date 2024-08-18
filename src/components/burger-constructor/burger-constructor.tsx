@@ -1,34 +1,41 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useSelector } from '../../services/store';
-import { selectConstructorItems } from '../../services/slices/constructorItemsSlice';
-import { selectLoadOrder, selectOrder } from '../../services/slices/orderSlice';
+import { useDispatch, useSelector } from '../../services/store';
+import { selectConstructorItems } from '../../services/slices/burgerConstructorSlice';
+import { createOrderBurgerThunk, resetOrder, selectLoadOrder, selectOrder } from '../../services/slices/orderSlice';
+import { selectUser } from '../../services/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  // const constructorItems = {
-  //   bun: {
-  //     price: 0
-  //   },
-  //   ingredients: []
-  // };
-
-  // const orderRequest = false;
-
-  // const orderModalData = null;
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const constructorItems = useSelector(selectConstructorItems);
-
   const orderRequest = useSelector(selectLoadOrder);
-
   const orderModalData = useSelector(selectOrder);
+  const user = useSelector(selectUser);
 
   const onOrderClick = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
     if (!constructorItems.bun || orderRequest) return;
+
+    dispatch(
+      createOrderBurgerThunk([
+        constructorItems.bun._id,
+        ...constructorItems.ingredients.map(
+          (item) => item._id
+        ),
+        constructorItems.bun._id
+      ])
+    );
   };
   
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => dispatch(resetOrder());
 
   const price = useMemo(
     () =>
@@ -39,8 +46,6 @@ export const BurgerConstructor: FC = () => {
       ),
     [constructorItems]
   );
-
-  //return null;
 
   return (
     <BurgerConstructorUI

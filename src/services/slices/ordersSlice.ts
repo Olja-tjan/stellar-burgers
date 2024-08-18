@@ -1,10 +1,11 @@
 import { getOrdersApi } from '@api';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { TOrder } from '@utils-types';
+import { ORDERS_SLICE_NAME } from '../../utils/constants';
 
 export const getOrdersThunk = createAsyncThunk(
-  'orders/getOrders',
-  async () => getOrdersApi() // get orders
+  `${ORDERS_SLICE_NAME}/getOrders`,
+  async () => getOrdersApi()
 )
 
 interface OrdersState {
@@ -17,30 +18,27 @@ const initialState: OrdersState = {
   orders: [],
 }
 
-const ordersSlice = createSlice({
-  name: 'orders',
+export const ordersSlice = createSlice({
+  name: ORDERS_SLICE_NAME,
   initialState,
   reducers: {},
   selectors: {
-    selectLoadOrders: (sliceState: OrdersState) => sliceState.isLoading,
-    selectOrders: (sliceState: OrdersState) => sliceState.orders
+    selectOrders: (sliceState: OrdersState) => sliceState.orders,
+    selectLoadOrders: (sliceState: OrdersState) => sliceState.isLoading
   },
   extraReducers: (builder) => {
     builder
-    // Получение массива orders
-    .addCase(getOrdersThunk.pending, (state) => {
-      state.isLoading = true;
-    })
-    .addCase(getOrdersThunk.rejected, (state) => {
-      state.isLoading = false;
-    })
-    .addCase(getOrdersThunk.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.orders = action.payload
-    })
+      .addCase(getOrdersThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOrdersThunk.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(getOrdersThunk.fulfilled, (state, action: PayloadAction<TOrder[]>) => {
+        state.isLoading = false;
+        state.orders = action.payload
+      })
   }
 })
 
 export const { selectOrders } = ordersSlice.selectors;
-
-export default ordersSlice.reducer;
