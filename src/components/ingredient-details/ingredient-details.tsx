@@ -6,13 +6,9 @@ import { selectIngredients } from '../../services/slices/ingredientsSlice';
 import { useParams } from 'react-router-dom';
 
 export const IngredientDetails: FC = () => {
-  /** TODO: взять переменную из стора */
-  const {id} = useParams();
-
+  const { id } = useParams();
   const ingredientsData = useSelector(selectIngredients);
-  const ingredientData = ingredientsData.find(
-    (item) => item._id === id
-  );
+  const ingredientData = ingredientsData.find((item) => item._id === id);
 
   if (!ingredientData) {
     return <Preloader />;

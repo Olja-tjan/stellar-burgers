@@ -1,4 +1,4 @@
-import { RootState } from "../store";
+import { RootState } from '../store';
 
 export const selectOrderByNumber = (number: string) => (state: RootState) => {
   if (state.orders.orders.length) {
@@ -13,4 +13,4 @@ export const selectOrderByNumber = (number: string) => (state: RootState) => {
     return state.order.order;
   }
   return null;
-}
+};

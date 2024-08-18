@@ -1,16 +1,16 @@
 import { getFeedsApi } from '@api';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { TOrdersData } from '@utils-types';
 import { FEED_SLICE_NAME } from '../../utils/constants';
 
 export const getFeedThunk = createAsyncThunk<TOrdersData>(
   `${FEED_SLICE_NAME}/getFeed`,
   async () => getFeedsApi()
-)
+);
 
 interface FeedState {
-  isLoading: boolean,
-  feed: TOrdersData
+  isLoading: boolean;
+  feed: TOrdersData;
 }
 
 const initialState: FeedState = {
@@ -20,7 +20,7 @@ const initialState: FeedState = {
     total: 0,
     totalToday: 0
   }
-}
+};
 
 export const feedSlice = createSlice({
   name: FEED_SLICE_NAME,
@@ -39,11 +39,15 @@ export const feedSlice = createSlice({
       .addCase(getFeedThunk.rejected, (state) => {
         state.isLoading = false;
       })
-      .addCase(getFeedThunk.fulfilled, (state, action: PayloadAction<TOrdersData>) => {
-        state.isLoading = false;
-        state.feed = action.payload
-      })
+      .addCase(
+        getFeedThunk.fulfilled,
+        (state, action: PayloadAction<TOrdersData>) => {
+          state.isLoading = false;
+          state.feed = action.payload;
+        }
+      );
   }
-})
+});
 
-export const { selectFeed, selectOrdersFeed, selectLoadFeed } = feedSlice.selectors;
+export const { selectFeed, selectOrdersFeed, selectLoadFeed } =
+  feedSlice.selectors;

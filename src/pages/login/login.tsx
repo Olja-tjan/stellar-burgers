@@ -5,22 +5,25 @@ import { loginUserThunk } from '../../services/slices/userSlice';
 import { setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    dispatch(loginUserThunk({
-      email: email,
-      password: password
-    }))
-    .unwrap()
-    .then(dataResponse => {
-      setCookie('accessToken', dataResponse.accessToken);
-      localStorage.setItem('refreshToken', dataResponse.refreshToken);
-    });
+    dispatch(
+      loginUserThunk({
+        email: email,
+        password: password
+      })
+    )
+      .unwrap()
+      .then((dataResponse) => {
+        setCookie('accessToken', dataResponse.accessToken);
+        localStorage.setItem('refreshToken', dataResponse.refreshToken);
+      });
   };
 
   return (

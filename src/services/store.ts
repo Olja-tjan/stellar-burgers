@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   [burgerConstructorSlice.name]: burgerConstructorSlice.reducer,
   [feedSlice.name]: feedSlice.reducer,
   [ordersSlice.name]: ordersSlice.reducer,
-  [orderSlice.name]: orderSlice.reducer,
+  [orderSlice.name]: orderSlice.reducer
 });
 
 const store = configureStore({

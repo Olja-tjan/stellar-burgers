@@ -3,12 +3,16 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import { selectConstructorItems } from '../../services/slices/burgerConstructorSlice';
-import { createOrderBurgerThunk, resetOrder, selectLoadOrder, selectOrder } from '../../services/slices/orderSlice';
+import {
+  createOrderBurgerThunk,
+  resetOrder,
+  selectLoadOrder,
+  selectOrder
+} from '../../services/slices/orderSlice';
 import { selectUser } from '../../services/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const constructorItems = useSelector(selectConstructorItems);
@@ -27,14 +31,12 @@ export const BurgerConstructor: FC = () => {
     dispatch(
       createOrderBurgerThunk([
         constructorItems.bun._id,
-        ...constructorItems.ingredients.map(
-          (item) => item._id
-        ),
+        ...constructorItems.ingredients.map((item) => item._id),
         constructorItems.bun._id
       ])
     );
   };
-  
+
   const closeOrderModal = () => dispatch(resetOrder());
 
   const price = useMemo(

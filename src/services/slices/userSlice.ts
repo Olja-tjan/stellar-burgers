@@ -16,45 +16,42 @@ import { deleteCookie, setCookie } from '../../utils/cookie';
 export const checkedUserAuthThunk = createAsyncThunk(
   `${USER_SLICE_NAME}/checkUser`,
   async () => getUserApi()
-)
+);
 
 export const updateUserThunk = createAsyncThunk(
   `${USER_SLICE_NAME}/updateUser`,
-  async ({ email, name, password }: TRegisterData) => {
-    return await updateUserApi({ email, name, password });
-  }
-)
+  async ({ email, name, password }: TRegisterData) =>
+    await updateUserApi({ email, name, password })
+);
 
 export const registerUserThunk = createAsyncThunk(
   `${USER_SLICE_NAME}/registerUser`,
-  async ({ email, name, password }: TRegisterData) => {
-    return await registerUserApi({ email, name, password });
-  }
-)
+  async ({ email, name, password }: TRegisterData) =>
+    await registerUserApi({ email, name, password })
+);
 
 export const loginUserThunk = createAsyncThunk(
   `${USER_SLICE_NAME}/loginUser`,
-  async ({ email, password }: TLoginData) => {
-    return await loginUserApi({ email, password });
-  }
-)
+  async ({ email, password }: TLoginData) =>
+    await loginUserApi({ email, password })
+);
 
 export const logoutUserThunk = createAsyncThunk(
   `${USER_SLICE_NAME}/logoutUser`,
   async () => logoutApi()
-)
+);
 
 interface UserState {
-  isAuthChecked: boolean,
-  isLoading: boolean,
-  user: TUser | null
+  isAuthChecked: boolean;
+  isLoading: boolean;
+  user: TUser | null;
 }
 
 const initialState: UserState = {
   isAuthChecked: false,
   isLoading: false,
   user: null
-}
+};
 
 export const userSlice = createSlice({
   name: USER_SLICE_NAME,
@@ -75,27 +72,31 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isAuthChecked = true;
       })
-      .addCase(registerUserThunk.fulfilled,
+      .addCase(
+        registerUserThunk.fulfilled,
         (state, action: PayloadAction<TUserResponse>) => {
           state.isLoading = false;
           state.isAuthChecked = true;
           state.user = action.payload.user;
-        })
+        }
+      )
 
       .addCase(loginUserThunk.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
         state.isAuthChecked = false;
       })
       .addCase(loginUserThunk.rejected, (state) => {
-        state.isLoading = false
+        state.isLoading = false;
         state.isAuthChecked = true;
       })
-      .addCase(loginUserThunk.fulfilled,
+      .addCase(
+        loginUserThunk.fulfilled,
         (state, action: PayloadAction<TUserResponse>) => {
-          state.isLoading = false
+          state.isLoading = false;
           state.isAuthChecked = true;
           state.user = action.payload.user;
-        })
+        }
+      )
 
       .addCase(checkedUserAuthThunk.pending, (state) => {
         state.isLoading = true;
@@ -105,42 +106,47 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isAuthChecked = true;
       })
-      .addCase(checkedUserAuthThunk.fulfilled,
+      .addCase(
+        checkedUserAuthThunk.fulfilled,
         (state, action: PayloadAction<TUserResponse>) => {
           state.isLoading = false;
           state.isAuthChecked = true;
-          state.user = action.payload.user
-        })
+          state.user = action.payload.user;
+        }
+      )
 
       .addCase(updateUserThunk.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
         state.isAuthChecked = false;
       })
       .addCase(updateUserThunk.rejected, (state) => {
-        state.isLoading = false
+        state.isLoading = false;
         state.isAuthChecked = true;
       })
-      .addCase(updateUserThunk.fulfilled,
+      .addCase(
+        updateUserThunk.fulfilled,
         (state, action: PayloadAction<TUserResponse>) => {
-          state.isLoading = false
+          state.isLoading = false;
           state.isAuthChecked = true;
           state.user = action.payload.user;
-        })
+        }
+      )
 
       .addCase(logoutUserThunk.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
         state.isAuthChecked = false;
       })
       .addCase(logoutUserThunk.rejected, (state) => {
-        state.isLoading = false
+        state.isLoading = false;
         state.isAuthChecked = true;
       })
       .addCase(logoutUserThunk.fulfilled, (state) => {
         state.user = null;
-        state.isLoading = false
+        state.isLoading = false;
         state.isAuthChecked = true;
-      })
+      });
   }
-})
+});
 
-export const { selectUser, selectIsAuthChecked, selectUserName } = userSlice.selectors;
+export const { selectUser, selectIsAuthChecked, selectUserName } =
+  userSlice.selectors;
