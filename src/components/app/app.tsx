@@ -115,6 +115,21 @@ const App = () => {
           }
         />
         <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <div className={styles.detailPageWrap}>
+                <p
+                  className={`text text_type_digits-default ${styles.detailHeader}`}
+                >
+                  {`#${orderNumber && orderNumber.padStart(6, '0')}`}
+                </p>
+                <OrderInfo />
+              </div>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='/ingredients/:id'
           element={
             <div className={styles.detailPageWrap}>
