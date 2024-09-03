@@ -1,10 +1,12 @@
+import { DATA_CY_CONSTRUCTOR } from '../../src/utils/constants';
+
 /// <reference types="cypress" />
 
 describe('Добавление ингридиентов в конструктор работает корректно', function () {
   beforeEach(function () {
     cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
     cy.viewport(1300, 800);
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   });
 
   it('Добавление булки', function () {
@@ -33,7 +35,7 @@ describe('Модальное окно работает корректно', func
   beforeEach(function () {
     cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
     cy.viewport(1300, 800);
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   });
 
   it('Открытие модального окна', function () {
@@ -72,7 +74,7 @@ describe('Создание заказа работает корректно', fu
     );
     cy.setCookie('accessToken', 'test-accessToken');
     cy.viewport(1300, 800);
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   });
 
   afterEach(function () {
@@ -104,13 +106,13 @@ describe('Создание заказа работает корректно', fu
     cy.get('[data-cy=order-number]').should('not.exist');
 
     // Проверка очистки конструктора
-    cy.get('[data-cy=constructor]')
+    cy.get(`[${DATA_CY_CONSTRUCTOR}]`)
       .contains('Ингредиент 1')
       .should('not.exist');
-    cy.get('[data-cy=constructor]')
+    cy.get(`[${DATA_CY_CONSTRUCTOR}]`)
       .contains('Ингредиент 2')
       .should('not.exist');
-    cy.get('[data-cy=constructor]')
+    cy.get(`[${DATA_CY_CONSTRUCTOR}]`)
       .contains('Ингредиент 4')
       .should('not.exist');
   });

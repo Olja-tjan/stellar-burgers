@@ -1,20 +1,14 @@
 import {
-  checkedUserAuthThunk,
-  loginUserThunk,
-  logoutUserThunk,
-  registerUserThunk,
-  updateUserThunk,
   userSlice,
-  UserState
+  initialState,
+  registerUserThunk,
+  loginUserThunk,
+  checkedUserAuthThunk,
+  updateUserThunk,
+  logoutUserThunk
 } from '../services/slices/userSlice';
 
 describe('Проверка работы userSlice', function () {
-  const initialState: UserState = {
-    isAuthChecked: false,
-    isLoading: false,
-    user: null
-  };
-
   // Запрос registerUserThunk:
   it('В запросе registerUserThunk, изменение isLoading на true при отправке pending', function () {
     const actualState = {

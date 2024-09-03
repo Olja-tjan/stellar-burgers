@@ -40,13 +40,13 @@ export const logoutUserThunk = createAsyncThunk(
   async () => logoutApi()
 );
 
-export interface UserState {
+interface UserState {
   isAuthChecked: boolean;
   isLoading: boolean;
   user: TUser | null;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   isAuthChecked: false,
   isLoading: false,
   user: null

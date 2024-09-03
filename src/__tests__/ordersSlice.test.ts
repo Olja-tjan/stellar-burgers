@@ -1,15 +1,10 @@
 import {
   ordersSlice,
-  OrdersState,
+  initialState,
   getOrdersThunk
 } from '../services/slices/ordersSlice';
 
 describe('Проверка работы ordersSlice', function () {
-  const initialState: OrdersState = {
-    isLoading: false,
-    orders: []
-  };
-
   it('Изменение isLoading на true при отправке pending', function () {
     const actualState = {
       isLoading: true,

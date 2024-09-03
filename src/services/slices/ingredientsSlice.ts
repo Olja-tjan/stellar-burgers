@@ -8,12 +8,12 @@ export const getIngredientsThunk = createAsyncThunk<TIngredient[]>(
   async () => getIngredientsApi()
 );
 
-export interface IngredientsState {
+interface IngredientsState {
   isLoading: boolean;
   ingredients: TIngredient[];
 }
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
   isLoading: false,
   ingredients: []
 };

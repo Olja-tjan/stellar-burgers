@@ -1,16 +1,11 @@
 import {
   orderSlice,
-  OrderState,
+  initialState,
   getOrderByNumberThunk,
   createOrderBurgerThunk
 } from '../services/slices/orderSlice';
 
 describe('Проверка работы orderSlice', function () {
-  const initialState: OrderState = {
-    isLoading: false,
-    order: null
-  };
-
   // Запрос createOrderBurgerThunk:
   it('В запросе createOrderBurgerThunk, изменение isLoading на true при отправке pending', function () {
     const actualState = {

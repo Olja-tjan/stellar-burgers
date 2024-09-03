@@ -8,12 +8,12 @@ export const getFeedThunk = createAsyncThunk<TOrdersData>(
   async () => getFeedsApi()
 );
 
-export interface FeedState {
+interface FeedState {
   isLoading: boolean;
   feed: TOrdersData;
 }
 
-const initialState: FeedState = {
+export const initialState: FeedState = {
   isLoading: false,
   feed: {
     orders: [],

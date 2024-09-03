@@ -22,12 +22,12 @@ export const getOrderByNumberThunk = createAsyncThunk(
   async (id_order: number) => getOrderByNumberApi(id_order)
 );
 
-export interface OrderState {
+interface OrderState {
   isLoading: boolean;
   order: TOrder | null;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   isLoading: false,
   order: null
 };

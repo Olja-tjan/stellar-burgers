@@ -1,15 +1,10 @@
 import {
   ingredientsSlice,
-  IngredientsState,
+  initialState,
   getIngredientsThunk
 } from '../services/slices/ingredientsSlice';
 
 describe('Проверка работы ingredientsSlice', function () {
-  const initialState: IngredientsState = {
-    isLoading: false,
-    ingredients: []
-  };
-
   it('Изменение isLoading на true при отправке pending', function () {
     const actualState = {
       isLoading: true,

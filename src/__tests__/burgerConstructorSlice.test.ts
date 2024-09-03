@@ -1,6 +1,6 @@
 import {
   burgerConstructorSlice,
-  BurgerConstructorState,
+  initialState,
   addIngredient,
   removeIngredient,
   upIngredient,
@@ -54,11 +54,6 @@ describe('Проверка работы constructorSlice', function () {
   };
 
   it('Корректно добавляется ингредиент', function () {
-    const initialState: BurgerConstructorState = {
-      bun: null,
-      ingredients: []
-    };
-
     const newState = burgerConstructorSlice.reducer(
       initialState,
       addIngredient(ingredient1)
@@ -71,11 +66,6 @@ describe('Проверка работы constructorSlice', function () {
   });
 
   it('Корректно добавляется булка', function () {
-    const initialState: BurgerConstructorState = {
-      bun: null,
-      ingredients: []
-    };
-
     const newState = burgerConstructorSlice.reducer(
       initialState,
       addIngredient(bun)
@@ -88,48 +78,48 @@ describe('Проверка работы constructorSlice', function () {
   });
 
   it('Корректно удаляется ингредиент', () => {
-    const initialState = {
+    const actualState = {
       bun: null,
       ingredients: [ingredient1]
     };
     const newState = burgerConstructorSlice.reducer(
-      initialState,
+      actualState,
       removeIngredient(ingredient1)
     );
     expect(newState.ingredients).toHaveLength(0);
   });
 
   it('Корректно перемещается ингредиент вверх', () => {
-    const initialState = {
+    const actualState = {
       bun: null,
       ingredients: [ingredient1, ingredient2]
     };
     const newState = burgerConstructorSlice.reducer(
-      initialState,
+      actualState,
       upIngredient(1)
     );
     expect(newState.ingredients).toEqual([ingredient2, ingredient1]);
   });
 
   it('Корректно перемещается ингредиент вниз', () => {
-    const initialState = {
+    const actualState = {
       bun: null,
       ingredients: [ingredient1, ingredient2]
     };
     const newState = burgerConstructorSlice.reducer(
-      initialState,
+      actualState,
       downIngredient(0)
     );
     expect(newState.ingredients).toEqual([ingredient2, ingredient1]);
   });
 
   it('Корректно очищается конструктор', () => {
-    const initialState = {
+    const actualState = {
       bun: bun,
       ingredients: [ingredient1]
     };
     const newState = burgerConstructorSlice.reducer(
-      initialState,
+      actualState,
       resetConstructor()
     );
     expect(newState).toEqual({ bun: null, ingredients: [] });

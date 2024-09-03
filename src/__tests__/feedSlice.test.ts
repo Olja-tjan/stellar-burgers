@@ -1,19 +1,10 @@
 import {
   feedSlice,
-  FeedState,
+  initialState,
   getFeedThunk
 } from '../services/slices/feedSlice';
 
 describe('Проверка работы feedSlice', function () {
-  const initialState: FeedState = {
-    isLoading: false,
-    feed: {
-      orders: [],
-      total: 0,
-      totalToday: 0
-    }
-  };
-
   it('Изменение isLoading на true при отправке pending', function () {
     const actualState = {
       isLoading: true,

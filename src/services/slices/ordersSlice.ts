@@ -8,12 +8,12 @@ export const getOrdersThunk = createAsyncThunk(
   async () => getOrdersApi()
 );
 
-export interface OrdersState {
+interface OrdersState {
   isLoading: boolean;
   orders: TOrder[];
 }
 
-const initialState: OrdersState = {
+export const initialState: OrdersState = {
   isLoading: false,
   orders: []
 };
