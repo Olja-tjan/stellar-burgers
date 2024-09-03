@@ -2,7 +2,7 @@ import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BURGER_CONSTRUCTOR_SLICE_NAME } from '../../utils/constants';
 
-interface BurgerConstructorState {
+export interface BurgerConstructorState {
   bun: TConstructorIngredient | null;
   ingredients: TConstructorIngredient[];
 }

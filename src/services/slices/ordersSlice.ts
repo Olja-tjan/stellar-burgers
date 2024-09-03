@@ -8,7 +8,7 @@ export const getOrdersThunk = createAsyncThunk(
   async () => getOrdersApi()
 );
 
-interface OrdersState {
+export interface OrdersState {
   isLoading: boolean;
   orders: TOrder[];
 }
