@@ -13,7 +13,7 @@ interface OrdersState {
   orders: TOrder[];
 }
 
-const initialState: OrdersState = {
+export const initialState: OrdersState = {
   isLoading: false,
   orders: []
 };

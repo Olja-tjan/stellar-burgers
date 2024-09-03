@@ -27,7 +27,7 @@ interface OrderState {
   order: TOrder | null;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   isLoading: false,
   order: null
 };

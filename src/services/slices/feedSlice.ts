@@ -13,7 +13,7 @@ interface FeedState {
   feed: TOrdersData;
 }
 
-const initialState: FeedState = {
+export const initialState: FeedState = {
   isLoading: false,
   feed: {
     orders: [],

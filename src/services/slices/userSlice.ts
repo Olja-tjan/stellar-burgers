@@ -11,7 +11,6 @@ import {
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import { USER_SLICE_NAME } from '../../utils/constants';
-import { deleteCookie, setCookie } from '../../utils/cookie';
 
 export const checkedUserAuthThunk = createAsyncThunk(
   `${USER_SLICE_NAME}/checkUser`,
@@ -47,7 +46,7 @@ interface UserState {
   user: TUser | null;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   isAuthChecked: false,
   isLoading: false,
   user: null
