@@ -1,19 +1,37 @@
-# Проектная работа 11-го спринта
+# Проектная работа "Stellar-burgers"
 
-[Макет](<https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design>)
+Стек: TS, React, Redux, HTML, CSS, Webpack, Cypress, Jest
 
-[Чеклист](https://www.notion.so/praktikum/0527c10b723d4873aa75686bad54b32e?pvs=4)
 
-## Этапы работы:
+## Установка и запуск
+Для установки и запуска проекта необходимо выполнить команды
+```
+npm install
+npm run start
+```
 
-1. Разверните проект и ознакомьтесь с кодом. Все необходимые вам компоненты уже созданы и лежат в папке `src/components`
+или
 
-2. Настройте роутинг.
-
-3. Напишите функционал запросов данных с сервера, используя `Redux` и глобальный `store`. Сами "ручки" уже прописаны и лежат в `utils/burger-api.ts`
-
-4. Настройте авторизацию и создайте защищённые роуты.
+```
+yarn
+yarn start
+```
 
 ## Важно:
 
-Для корректной работы запросов к серверу необходимо добавить переменную BURGER_API_URL в окружение. Сама ссылка находится в файле `.env.example`.
+Для корректной работы запросов к серверу необходимо создать в корне файл с именем `.env`. В него следует копировать содержимое из файла `.env.example`.
+
+
+## Сборка
+
+```
+npm run build
+```
+
+или
+
+```
+yarn build
+```
+
+[Макет](<https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design>)
